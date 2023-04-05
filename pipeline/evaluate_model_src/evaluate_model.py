@@ -8,21 +8,30 @@ from sklearn.metrics import accuracy_score
 from sklearn.base import clone
 import mlflow
 from mlflow.tracking import MlflowClient
+import os
+
+def select_first_file(path):
+    """Selects first file in folder, use under assumption there is only one file in folder
+    Args:
+        path (str): path to directory or file to choose
+    Returns:
+        str: full path of selected file
+    """
+    files = os.listdir(path)
+    return os.path.join(path, files[0])
 
 parser = argparse.ArgumentParser("model_selection")
 parser.add_argument("--train_input_path", type=str, help="Input path of the train set")
 parser.add_argument("--test_input_path", type=str, help="Input path of the train set")
 parser.add_argument("--model_input_path", type=str, help="Input path of the model")
-parser.add_argument(
-    "--params_input_path", type=str, help="Input path of parameters to use"
-)
+parser.add_argument("--params_input_path", type=str, help="Input path of parameters to use")
 
 args = parser.parse_args()
 
-train_dat = pd.read_parquet(args.train_input_path)
-test_dat = pd.read_parquet(args.test_input_path)
+train_dat = pd.read_parquet(select_first_file(args.train_input_path))
+test_dat = pd.read_parquet(select_first_file(args.test_input_path))
 
-input_model = mlflow.sklearn.load_model(Path(args.model_input_path))
+input_model = mlflow.sklearn.load_model(select_first_file(args.model_input_path))
 
 
 def split(x):
@@ -36,11 +45,11 @@ train_y, train_X = (
 
 test_y, test_X = (test_dat.pop("species").values, test_dat.to_numpy())
 
-with Path(args.params_input_path).open(mode="r") as f:
+with Path(select_first_file(args.params_input_path)).open(mode="r") as f:
     params = json.load(f)
 print(params)
 
-model = mlflow.sklearn.load_model(Path(args.model_input_path))
+model = mlflow.sklearn.load_model(Path(select_first_file(args.model_input_path)))
 output_model = clone(input_model)
 
 output_model.fit(train_X, train_y)

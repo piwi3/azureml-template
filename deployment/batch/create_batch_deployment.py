@@ -44,3 +44,6 @@ deployment = BatchDeployment(
 )
 
 ml_client.batch_deployments.begin_create_or_update(deployment)
+
+endpoint = ml_client.batch_endpoints.get(name=os.getenv("BATCH_ENDPOINT_NAME"))
+endpoint.defaults.deployment_name = deployment.name

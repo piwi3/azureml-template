@@ -7,13 +7,13 @@ description: Evaluate the performance of the best model on the test set
 version: 0.0.1
 inputs: 
   train_input_path:
-    type: uri_file
+    type: uri_folder
   test_input_path:
-    type: uri_file
+    type: uri_folder
   model_input_path:
-    type: mlflow_model
+    type: uri_folder
   params_input_path:
-    type: uri_file
+    type: uri_folder
 code: ../pipeline/evaluate_model_src/evaluate_model.py
 environment: azureml:template_environment@latest
 command: >-

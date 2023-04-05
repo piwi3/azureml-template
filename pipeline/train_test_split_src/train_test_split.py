@@ -5,19 +5,13 @@ import numpy as np
 from sklearn.model_selection import KFold
 
 parser = argparse.ArgumentParser("train_test_split")
-parser.add_argument(
-    "--dataset_input_path", type=str, help="Input path of the input dataset"
-)
-parser.add_argument(
-    "--train_output_path", type=str, help="Output path of the train set"
-)
+parser.add_argument("--dataset_input_path", type=str, help="Input path of the input dataset")
+
+parser.add_argument("--train_output_path", type=str, help="Output path of the train set")
 parser.add_argument("--test_output_path", type=str, help="Output path of the test set")
-parser.add_argument(
-    "--train_size", type=float, help="Portion of dataset to use for training"
-)
-parser.add_argument(
-    "--num_folds", type=int, help="Number of folds to use for cross-validation"
-)
+
+parser.add_argument("--train_size", type=float, help="Portion of dataset to use for training")
+parser.add_argument("--num_folds", type=int, help="Number of folds to use for cross-validation")
 
 args = parser.parse_args()
 
@@ -49,5 +43,5 @@ for k, split in enumerate(kfold.split(train_dat)):
     train_dat.loc[fold, "fold"] = k + 1
 train_dat["fold"] = train_dat.fold.astype(int)
 
-train_dat.to_parquet(str(Path(train_path)))
-test_dat.to_parquet(str(Path(test_path)))
+train_dat.to_parquet(str(Path(train_path, "iris_train.parquet")))
+test_dat.to_parquet(str(Path(test_path, "iris_test.parquet")))

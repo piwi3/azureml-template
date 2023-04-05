@@ -11,7 +11,7 @@ parser.add_argument("--token", type=str, help="The authentication token")
 args = parser.parse_args()
 
 scoring_data_path = (
-    f"azureml://datastores/workspaceblobstore/paths//template_data/scoring/"
+    f"azureml://datastores/workspaceblobstore/paths/template_data/scoring/"
 )
 output_data_path = (
     f"azureml://datastores/workspaceblobstore/paths/template_data/deployment/output/"

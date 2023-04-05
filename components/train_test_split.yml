@@ -16,9 +16,11 @@ inputs:
     default: 3
 outputs:
   train_output_path:
-    type: uri_file
+    type: uri_folder
+    mode: rw_mount
   test_output_path:
-    type: uri_file
+    type: uri_folder
+    mode: rw_mount
 code: ../pipeline/train_test_split_src
 environment: azureml:template_environment@latest
 command: >-

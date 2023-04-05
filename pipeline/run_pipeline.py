@@ -3,7 +3,7 @@ from azure.identity import AzureCliCredential
 from azure.ai.ml.dsl import pipeline
 from pathlib import Path
 from azure.ai.ml.constants import AssetTypes
-from azure.ai.ml.sweep import LogUniform
+from azure.ai.ml.sweep import LogUniform, Uniform, BanditPolicy
 from azure.ai.ml.entities import Model
 from azure.ai.ml.constants import ModelType
 
@@ -44,7 +44,7 @@ def template_pipeline(
 
     model_selection_step = model_selection(
         train_input_path=split_step.outputs.train_output_path,
-        C=LogUniform(min_value=-5, max_value=-1),
+        C=Uniform(min_value=0.001, max_value=0.5),
     )
 
     # The result of the various runs is logged on the MLFlow server,
@@ -52,12 +52,16 @@ def template_pipeline(
     hyperparameter_search = model_selection_step.sweep(
         primary_metric="accuracy",
         goal="maximize",
-        sampling_algorithm="random",
+        sampling_algorithm="bayesian",
         compute=cluster,
     )
 
     hyperparameter_search.set_limits(
-        max_total_trials=2, max_concurrent_trials=2, timeout=60
+        max_total_trials=20, max_concurrent_trials=2, timeout=36000
+    )
+    
+    hyperparameter_search.early_termination = BanditPolicy(
+        slack_factor= 0.1, delay_evaluation = 5, evaluation_interval = 1
     )
 
     evaluate_step = evaluate_model(

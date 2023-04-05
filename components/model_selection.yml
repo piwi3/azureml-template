@@ -7,14 +7,16 @@ description: Do a parameter search and evaluate the performance of the resulting
 version: 0.0.1
 inputs: 
   train_input_path:
-    type: uri_file
+    type: uri_folder
   C:
     type: number
 outputs:
   model_output_path:
-    type: mlflow_model
+    type: uri_folder
+    mode: rw_mount
   params_output_path:
-    type: uri_file
+    type: uri_folder
+    mode: rw_mount
 code: ../pipeline/model_selection_src
 environment: azureml:template_environment@latest
 command: >-
