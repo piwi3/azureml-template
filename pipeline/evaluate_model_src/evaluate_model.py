@@ -19,6 +19,9 @@ def select_first_file(path):
     """
     files = os.listdir(path)
     return os.path.join(path, files[0])
+    # path = Path(path)
+    # files = list(path.glob("*"))
+    # return path / files[0]
 
 parser = argparse.ArgumentParser("model_selection")
 parser.add_argument("--train_input_path", type=str, help="Input path of the train set")

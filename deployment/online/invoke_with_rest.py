@@ -6,7 +6,7 @@ import os
 import pandas as pd
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--uri", type=str, help="The URI of the batch endpoint")
+parser.add_argument("--uri", type=str, help="The URI of the online endpoint")
 parser.add_argument("--token", type=str, help="The authentication token")
 
 args = parser.parse_args()
