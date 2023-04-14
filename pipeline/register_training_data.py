@@ -16,11 +16,13 @@ ml_client = MLClient.from_config(
     credential=AzureCliCredential(), file_name="config.json"
 )
 
+datastore_name = ml_client.datastores.get_default().name
+
 iris_data = Data(
-    path=f"https://{account_name}.blob.core.windows.net/{container_name}/template_data/training/iris.parquet",
+    path=f"azureml://datastores/{datastore_name}/paths/tft_data/training/LD2011_2014.txt",
     type=AssetTypes.URI_FILE,
-    description="Iris dataset for use in Azure ML Template Project",
-    name="template_data_iris",
+    description="ElectricityLoadDiagrams20112014 dataset - power usage (kw) of 370 consumers with 15 min frequency",
+    name="raw_electricity_load",
 )
 
 ml_client.data.create_or_update(iris_data)

@@ -9,10 +9,10 @@ ml_client = MLClient.from_config(
 )
 
 environment = Environment(
-    name="template_environment",
+    name="tft_environment",
     image="mcr.microsoft.com/azureml/openmpi3.1.2-ubuntu18.04",
     conda_file=str(Path("conda.yml").resolve()),
-    description="Environment belonging to Azure ML Python SDK v2 Template Project",
+    description="Environment belonging to Azure ML Python SDK v2 tft tutorial",
 )
 
 ml_client.environments.create_or_update(environment)

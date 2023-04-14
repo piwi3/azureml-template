@@ -1,4 +1,5 @@
 data/
+pipeline/tmp_data/
 !data/.gitkeep
 .env
 *.tfstate

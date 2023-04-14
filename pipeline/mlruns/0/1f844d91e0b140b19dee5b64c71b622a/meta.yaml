@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/philipwitte/Projects/my_projects/azureml-template/pipeline/mlruns/0/1f844d91e0b140b19dee5b64c71b622a/artifacts
+end_time: 1681458473763
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1f844d91e0b140b19dee5b64c71b622a
+run_name: amusing-conch-617
+run_uuid: 1f844d91e0b140b19dee5b64c71b622a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681458473728
+status: 3
+tags: []
+user_id: philipwitte

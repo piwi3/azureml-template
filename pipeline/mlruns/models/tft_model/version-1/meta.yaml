@@ -1,0 +1,12 @@
+creation_timestamp: 1681459463115
+current_stage: None
+description: null
+last_updated_timestamp: 1681459463115
+name: tft_model
+run_id: 72b0d91ad3994f28b036815dd9e464d0
+run_link: null
+source: file:///Users/philipwitte/Projects/my_projects/azureml-template/pipeline/mlruns/0/72b0d91ad3994f28b036815dd9e464d0/artifacts/model
+status: READY
+status_message: null
+user_id: null
+version: 1
