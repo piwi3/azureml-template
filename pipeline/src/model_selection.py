@@ -15,8 +15,6 @@ from pytorch_forecasting.data import GroupNormalizer
 from pytorch_forecasting.metrics import SMAPE, PoissonLoss, QuantileLoss
 from pytorch_forecasting.models.temporal_fusion_transformer.tuning import optimize_hyperparameters
 
-# from azureml.tensorboard import Tensorboard
-# tb = Tensorboard([], local_root="lightning_logs")
     
 # 0. Parse all arguments
 parser = argparse.ArgumentParser("model_selection")
@@ -80,9 +78,11 @@ val_dataloader = validation.to_dataloader(train=False, batch_size=batch_size * 1
 # - Our model uses Quantile Loss — a special type of loss that helps us output the prediction intervals. For more on the Quantile Loss function, check this article.
 # - We use 4 attention heads, like the original paper.
 
+log_dir = str(Path.cwd() / "logs" / "lightning_logs")
+
 early_stop_callback = EarlyStopping(monitor="val_loss", min_delta=1e-4, patience=5, verbose=True, mode="min")
 lr_logger = LearningRateMonitor()  
-logger = TensorBoardLogger("lightning_logs")  
+logger = TensorBoardLogger(log_dir)  
 
 trainer = pl.Trainer(
     max_epochs=45, # change to larger value!!! 
@@ -107,15 +107,11 @@ tft = TemporalFusionTransformer.from_dataset(
     reduce_on_plateau_patience=4,
 )
 
-# tb.start()
-
 trainer.fit(
     tft,
     train_dataloaders=train_dataloader,
     val_dataloaders=val_dataloader,
 )
-
-# tb.stop()
 
 best_model_path = trainer.checkpoint_callback.best_model_path
 best_tft = TemporalFusionTransformer.load_from_checkpoint(best_model_path)
